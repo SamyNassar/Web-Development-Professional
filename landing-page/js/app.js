@@ -17,6 +17,13 @@
  * Define Global Variables
  * 
 */
+const t0 = performance.now();
+const landingContainer = document.querySelectorAll(".landing__container");
+const landingContainerLength = landingContainer.length;
+const navbar = document.querySelector('.navbar__menu');
+const navFragment = document.createDocumentFragment();
+
+
 
 
 /**
@@ -24,6 +31,20 @@
  * Start Helper Functions
  * 
 */
+
+function addToNavbar(item, index){
+
+    const navItem = document.createElement('li');
+    const parent = item.parentElement;
+    navItem.innerHTML =`<a href="#${parent.id}">${parent.dataset.nav}</a>`;
+    navFragment.appendChild(navItem);
+
+    if(landingContainerLength == index + 1){
+        navbar.appendChild(navFragment);
+    }
+
+}
+
 
 
 
@@ -33,13 +54,16 @@
  * 
 */
 
-// build the nav
+// build the Navbar
+landingContainer.forEach((item, index) => {
+    addToNavbar(item, index);
+});
 
 
-// Add class 'active' to section when near top of viewport
 
 
-// Scroll to anchor ID using scrollTO event
+
+
 
 
 /**
@@ -48,10 +72,8 @@
  * 
 */
 
-// Build menu 
-
-// Scroll to section on link click
-
-// Set sections as active
 
 
+
+
+console.log(performance.now() - t0);
