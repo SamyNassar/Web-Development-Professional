@@ -22,7 +22,15 @@ const landingContainer = document.querySelectorAll(".landing__container");
 const landingContainerLength = landingContainer.length;
 const navbar = document.querySelector('.navbar__menu');
 const navFragment = document.createDocumentFragment();
+let activeSection = document.querySelector('active-section');
 
+let options = {
+    threshold: 0.25
+  }
+  
+let observer = new IntersectionObserver(setActiveSection, options);
+
+const section = document.querySelectorAll('section');
 
 
 
@@ -45,6 +53,18 @@ function addToNavbar(item, index){
 
 }
 
+function setActiveSection(entries){
+    entries.forEach((entry) => {
+        if(entry.isIntersecting){
+            entry.target.classList.toggle("active-section");
+        } else{
+            if(entry.target.classList.contains("active-section")){
+                entry.target.classList.toggle("active-section");
+            }
+        }
+        
+    })
+}
 
 
 
@@ -62,7 +82,10 @@ landingContainer.forEach((item, index) => {
 
 
 
-
+// Add class 'active' to section when near top of viewport
+section.forEach((section) => {
+    observer.observe(section);
+})
 
 
 
