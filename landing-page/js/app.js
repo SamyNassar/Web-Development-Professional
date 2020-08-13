@@ -20,7 +20,7 @@
 const t0 = performance.now();
 const landingContainer = document.querySelectorAll(".landing__container");
 const landingContainerLength = landingContainer.length;
-const navbar = document.querySelector('.navbar__menu');
+const navbarList = document.querySelector('#navbar__list');
 const navFragment = document.createDocumentFragment();
 const section = document.querySelectorAll('section');
 
@@ -45,7 +45,7 @@ function addToNavbar(item, index){
     navFragment.appendChild(navItem);
 
     if(landingContainerLength == index + 1){
-        navbar.appendChild(navFragment);
+        navbarList.appendChild(navFragment);
     }
 
 }
