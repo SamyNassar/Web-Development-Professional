@@ -106,6 +106,14 @@ function removeActiveFromAnchor(id){
     }
 }
 
+function initNavMenu(){
+    const navMenu = document.querySelector('.burger');
+    const nav = document.querySelector('.nav-list');
+    navMenu.addEventListener('click', () => {
+        nav.classList.toggle("passive-menu");
+    });
+}
+
 
 /**
  * End Helper Functions
@@ -123,6 +131,9 @@ landingContainer.forEach((item, index) => {
 sections.forEach((section) => {
     observer.observe(section);
 })
+
+// Initialize Navbar Menu.
+initNavMenu();
 
 
 /**
