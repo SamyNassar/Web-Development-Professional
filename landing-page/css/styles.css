@@ -141,13 +141,13 @@ section {
     .navbar__menu li a{
         color: black;
     }
-    
+    .passive-menu{
+        transform: translateY(-100%);
+    }
     
 
 }
-.passive-menu{
-    transform: translateY(-100%);
-}
+
 
 
 /* Header Styles */
