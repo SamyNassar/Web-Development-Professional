@@ -17,7 +17,6 @@
  * Define Global Variables
  * 
 */
-const t0 = performance.now();
 const landingContainer = document.querySelectorAll(".landing__container");
 const landingContainerLength = landingContainer.length;
 const navbarList = document.querySelector('#navbar__list');
@@ -153,4 +152,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-console.log(performance.now() - t0);
