@@ -106,6 +106,10 @@ section {
     transition: ease 0.3s all;
 }
 
+.active-anchor{
+    border-bottom: 1px solid aquamarine;
+}
+
 /* Header Styles */
 .page__header {
     background: #fff;

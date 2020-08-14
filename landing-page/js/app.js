@@ -22,10 +22,17 @@ const landingContainer = document.querySelectorAll(".landing__container");
 const landingContainerLength = landingContainer.length;
 const navbarList = document.querySelector('#navbar__list');
 const navFragment = document.createDocumentFragment();
-const section = document.querySelectorAll('section');
+const sections = document.querySelectorAll('section');
+let currentActiveSection;
+
+setTimeout(() => {
+    const navAnchors = document.querySelectorAll('nav a');
+},0)
+
+
 
 let options = {
-    threshold: 0.25
+    threshold: [.1,.2,.3,.4,.5,.6,.7,.8,.9,1]
   }
   
 let observer = new IntersectionObserver(setActiveSection, options);
@@ -46,24 +53,59 @@ function addToNavbar(item, index){
 
     if(landingContainerLength == index + 1){
         navbarList.appendChild(navFragment);
+        
     }
 
 }
 
 function setActiveSection(entries){
+
     entries.forEach((entry) => {
-        console.log(entry);
         if(entry.isIntersecting){
-            entry.target.classList.toggle("active-section");
-            console.log(`${entry.target.id} is ${entry.intersectionRect}`);
-        } else{
-            if(entry.target.classList.contains("active-section")){
-                entry.target.classList.toggle("active-section");
+            if(currentActiveSection == undefined){
+                currentActiveSection = entry;
+                addActiveToSection(currentActiveSection.target);
+                addActiveToAnchor(currentActiveSection.target.id)
+            } else{
+                if(entry.target.id == currentActiveSection.target.id || 
+                    entry.intersectionRatio > currentActiveSection.intersectionRatio){
+                        removeActiveFromSection(currentActiveSection.target);
+                        removeActiveFromAnchor(currentActiveSection.target.id);
+                        currentActiveSection = entry;
+                        addActiveToSection(currentActiveSection.target);
+                        addActiveToAnchor(currentActiveSection.target.id);
+                }
             }
         }
-        
     })
 }
+
+function removeActiveFromSection(section){
+    if(section.classList.contains("active-section")){
+        section.classList.toggle("active-section");
+    }
+}
+
+function addActiveToSection(section){
+    if(!section.classList.contains("active-section")){
+        section.classList.toggle("active-section");
+    }
+}
+
+
+function addActiveToAnchor(id){
+    const activeAnchor = document.querySelector(`a[href="#${id}"]`);
+    if(!activeAnchor.classList.contains("active-anchor")){
+        activeAnchor.classList.toggle("active-anchor");
+    }
+}
+function removeActiveFromAnchor(id){
+    const activeAnchor = document.querySelector(`a[href="#${id}"]`);
+    if(activeAnchor.classList.contains("active-anchor")){
+        activeAnchor.classList.toggle("active-anchor");
+    }
+}
+
 
 /**
  * End Helper Functions
@@ -78,7 +120,7 @@ landingContainer.forEach((item, index) => {
 
 
 // Add class 'active' to section when near top of viewport
-section.forEach((section) => {
+sections.forEach((section) => {
     observer.observe(section);
 })
 
@@ -99,3 +141,5 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
     });
 });
+
+console.log(performance.now() - t0);
