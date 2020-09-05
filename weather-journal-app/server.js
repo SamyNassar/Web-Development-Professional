@@ -1,3 +1,6 @@
+
+const getWeatherData = require('./api/api');
+
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 
@@ -15,10 +18,9 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 // Cors for cross origin allowance
 const cors = require('cors');
-app.use(cors);
+app.use(cors());
 
 // Initialize the main project folder
 app.use(express.static('website'));
@@ -26,5 +28,28 @@ app.use(express.static('website'));
 
 // Setup Server
 app.listen(PORT, HOST_NAME, ()=> {
-    console.log("DONE!")    
+    console.log("DONE!"); 
 });
+
+app.get("/api", (req, res) => {
+
+    res.send("Hello")
+
+
+    // const data = getWeatherData("94040","us");
+    
+    // res.send(data);
+    // console.log("start");
+})
+
+app.post('/', (req, res) => {
+
+    console.log(req.body)
+
+    // const data = getWeatherData("94040","us");
+    
+    // res.send(data);
+    // console.log("start");
+})
+
+getWeatherData();
