@@ -4,11 +4,10 @@ const BASE_URL = "api.openweathermap.org/data/2.5/weather";
 const fetch = require('node-fetch');
 
 
-const getWeatherData = async (zip, country) => {
-    const END_POINT = `${BASE_URL}?zip=${zip},${country}&appid=${API_KEY}`;
-    console.log(END_POINT)
+const getWeatherData = async (zip = '94040') => {
+    const END_POINT = `https://${BASE_URL}?zip=${zip}&units=metric&appid=${API_KEY}`;
 
-    const response = await fetch('https://api.github.com/users/github');
+    const response = await fetch(END_POINT);
 
     try{
         const data = await response.json();
@@ -17,6 +16,6 @@ const getWeatherData = async (zip, country) => {
         console.log(error);
     }
 }
-
+ 
 
 module.exports = getWeatherData;

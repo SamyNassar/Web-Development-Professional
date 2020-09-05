@@ -42,9 +42,17 @@ app.get("/api", (req, res) => {
     // console.log("start");
 })
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
 
-    console.log(req.body)
+    const data = await getWeatherData(req.body.zip)
+    console.log(data)
+
+    res.json(data);
+    
+    // res.json({
+    //     date:'date',
+    //     temp:'temp',
+    //     content:'content'})
 
     // const data = getWeatherData("94040","us");
     
@@ -52,4 +60,3 @@ app.post('/', (req, res) => {
     // console.log("start");
 })
 
-getWeatherData();
