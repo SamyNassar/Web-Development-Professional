@@ -46,12 +46,12 @@ const postDataToServer = async (url = '', data ={}) => {
 
 
 const updateUI = async () => {
-    const request = await fetch('/get');
+    const request = await fetch('/all');
         try{
             const allData=await request.json();
-            date.innerHTML=allData.temp + "&deg; C";
-            temp.innerHTML=allData.date;
-            content.innerHTML=allData.feelings;
+            date.innerHTML=`<p>${allData.temp}&deg; C"</p>`;
+            temp.innerHTML=`<p>${allData.date}</p>`;
+            content.innerHTML=`<p>${allData.feelings}</p>`;
             console.log(allData)
         } catch(error){
         console.log('error',error);
@@ -60,9 +60,9 @@ const updateUI = async () => {
 
 
 const getWeatherData = async (zip) =>{
-    const END_POINT = `https://${BASE_URL}?zip=${zip}&units=metric&appid=${API_KEY}`;
+    const END_POINT = `https://${BASE_URL}?zip=${zip}&units=metric&appid=`;
 
-    const response = await fetch(END_POINT);
+    const response = await fetch(END_POINT+API_KEY);
     try{
         const data = await response.json()
         return data;

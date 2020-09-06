@@ -28,9 +28,12 @@ app.listen(PORT, HOST_NAME, ()=> {
     console.log("DONE!"); 
 });
 
-app.get("/get", (req, res) => {
-    res.send(projectData)
-})
+
+app.get('/all', sendData)
+
+function sendData (req, res) {
+ res.send(projectData)
+}
     
 app.post('/add', async (req, res) => {
     projectData.date = req.body.date;
