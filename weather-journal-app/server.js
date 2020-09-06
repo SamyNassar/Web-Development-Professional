@@ -1,6 +1,3 @@
-
-const getWeatherData = require('./api/api');
-
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 
@@ -31,32 +28,13 @@ app.listen(PORT, HOST_NAME, ()=> {
     console.log("DONE!"); 
 });
 
-app.get("/api", (req, res) => {
-
-    res.send("Hello")
-
-
-    // const data = getWeatherData("94040","us");
-    
-    // res.send(data);
-    // console.log("start");
+app.get("/get", (req, res) => {
+    res.send(projectData)
 })
-
-app.post('/', async (req, res) => {
-
-    const data = await getWeatherData(req.body.zip)
-    console.log(data)
-
-    res.json(data);
     
-    // res.json({
-    //     date:'date',
-    //     temp:'temp',
-    //     content:'content'})
-
-    // const data = getWeatherData("94040","us");
-    
-    // res.send(data);
-    // console.log("start");
+app.post('/add', async (req, res) => {
+    projectData.date = req.body.date;
+    projectData.temp = req.body.temp;
+    projectData.feelings = req.body.feelings;
 })
 

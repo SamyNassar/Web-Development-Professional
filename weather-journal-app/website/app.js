@@ -1,4 +1,6 @@
 /* Global Variables */
+const API_KEY = "a2a2117bf16ba658d9e934f94b1f0421";
+const BASE_URL = "api.openweathermap.org/data/2.5/weather";
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -16,9 +18,14 @@ generateButton.addEventListener('click', () => {
     const feelings = document.getElementById('feelings').value;
 
     if(zip && !isNaN(zip) && feelings){
-        const data = {zip}
-        postZipToServer(data);
-        
+        getWeatherData(zip)
+        .then((data) => {
+            postDataToServer('/add',{temp:data.main.temp,
+                date:newDate,
+                feelings:feelings})
+        }).then(()=>{
+            updateUI();
+        })
     } else{
         alert("Invalid input!")
     }
@@ -26,60 +33,42 @@ generateButton.addEventListener('click', () => {
 })
 
 
-
-
-
-/* Helper Methods */
-
-const postZipToServer = async (zip) => {
-
-    const response = await fetch('/',{
+const postDataToServer = async (url = '', data ={}) => {
+    const response = await fetch(url,{
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(zip)
-        });
-    
-    const weatherData = await response.json();
-
-    updateUI(weatherData);
-
-    console.log(weatherData);
-}
-
-
-function updateUI(weatherData){
-    date.innerText = newDate;
-    temp.innerHTML = weatherData.main.temp + "&deg; C";
-    content.innerText = feelings;
-}
-
-
-/* Thses Two method Used if clint side fetch weather API and POST it to the server. ( NOT used ) */
-const getWeatherData = async () =>{
-
-    const response = await fetch("https://api.openweathermap.org/data/2.5/weather?zip=94040,us&appid=a2a2117bf16ba658d9e934f94b1f0421");
-    console.log(`Fetching Data ${response}`);
-    console.log(response)
-
-    try{
-        const data = await response.json()
-        console.log(data);
-        postWeatherDataToServer(data);
-
-    }catch(e){
-        console.log(e);
-    }
-}
-
-const postWeatherDataToServer = (data) => {
-    const weather = fetch("/", {
-        method:'POST',
+        credentials : 'same-origin',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     });
 }
 
 
-// getWeatherData();
+const updateUI = async () => {
+    const request = await fetch('/get');
+        try{
+            const allData=await request.json();
+            date.innerHTML=allData.temp + "&deg; C";
+            temp.innerHTML=allData.date;
+            content.innerHTML=allData.feelings;
+            console.log(allData)
+        } catch(error){
+        console.log('error',error);
+    }
+}
+
+
+const getWeatherData = async (zip) =>{
+    const END_POINT = `https://${BASE_URL}?zip=${zip}&units=metric&appid=${API_KEY}`;
+
+    const response = await fetch(END_POINT);
+    try{
+        const data = await response.json()
+        return data;
+    } catch(e){
+        console.log(e);
+    }
+}
+
+
